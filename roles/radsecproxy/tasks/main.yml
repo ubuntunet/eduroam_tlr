@@ -1,0 +1,65 @@
+- name: Install Compiler and stuff
+  apt: 
+    pkg: "{{ item }}"
+    update_cache: yes 
+    cache_valid_time: 36000
+  with_items:
+    - build-essential
+    - nettle-dev
+    - libssl-dev
+
+- name: Download Radsecproxy
+  get_url:
+    url: https://software.nordu.net/radsecproxy/radsecproxy-{{ radsecproxy.version }}.tar.xz
+    dest: /opt/radsecproxy-{{ radsecproxy.version }}.tar.xz
+    checksum: "{{ radsecproxy.checksum }}"
+
+- name: Extract radsecproxy
+  unarchive:
+    src: /opt/radsecproxy-{{ radsecproxy.version }}.tar.xz
+    dest: /opt
+    copy: no
+
+- name: Configure radsecproxy
+  command: ./configure --enable-fticks chdir=/opt/radsecproxy-{{ radsecproxy.version }}
+
+- name: make radsecproxy
+  command: make chdir=/opt/radsecproxy-{{ radsecproxy.version }}
+
+- name: make check radsecproxy
+  command: make check chdir=/opt/radsecproxy-{{ radsecproxy.version }}
+
+- name: make install radsecproxy
+  command: make install chdir=/opt/radsecproxy-{{ radsecproxy.version }}
+
+- name: Copy radsecproxy config file
+  template:
+    src: radsecproxy.conf.j2
+    dest: /usr/local/etc/radsecproxy.conf
+    backup: yes
+  notify: restart radsecproxy
+
+- name: Copy radsecproxy init file
+  copy:
+    src: radsecproxy.init-d
+    dest: /etc/init.d/radsecproxy
+    mode: 755
+  notify: restart radsecproxy
+
+- name: Enable radsecproxy init file
+  command: update-rc.d radsecproxy defaults
+  notify: restart radsecproxy
+
+- name: Copy rsyslog file for sending FTICKS statistics information
+  template:
+    src: rsyslog-radsecproxy.conf.j2
+    dest: /etc/rsyslog.d/22-rsyslog-radsecproxy.conf
+    mode: 644
+  notify: restart rsyslog
+
+- name: Enable logrotation
+  copy:
+    src: radsecproxy.log
+    dest: /etc/logrotate.d/radsecproxy
+    mode: 644
+  notify: restart rsyslog

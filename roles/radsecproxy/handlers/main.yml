@@ -1,0 +1,5 @@
+---
+- name: restart radsecproxy
+  service: name=radsecproxy state=restarted
+- name: restart rsyslog
+  service: name=rsyslog state=restarted

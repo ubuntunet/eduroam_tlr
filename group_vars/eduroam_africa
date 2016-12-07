@@ -1,0 +1,45 @@
+tld: africa
+
+#Replace with your actual member institutions.
+# Replay your playbook for changes to be deployed.
+institutions:
+  -
+    name: TESTME
+    host: fp.ubuntunet.net
+    realm: /(^|\.)me
+    secret: "{{ me_flr_secret }}"
+  -
+    name: MALAWI
+    host: eduroam.mw
+    realm: /(^|\.)mw
+    secret: "{{ mw_flr_secret }}"
+
+# FQDN of default Forwarding Continental Servers
+regional_proxies:
+  -
+    name: etlr1.eduroam.org
+    ip4: 192.87.106.34
+    ip6:
+      enabled: false
+      address: 0:0:0:0:0:0:0:0
+    type: UDP
+    secret: "{{ etlr_secret }}"
+  -
+    name: etlr2.eduroam.org
+    ip4: 130.225.242.109
+    ip6:
+      enabled: false
+      address: 0:0:0:0:0:0:0:0
+    type: UDP
+    secret: "{{ etlr_secret }}"
+
+# Monitoring and Statistics Servers
+monitoring:
+  host: 161.53.2.204
+  realm: /eduroam\.{{ tld }}
+fticks_server: 161.53.2.204
+
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False
+
+

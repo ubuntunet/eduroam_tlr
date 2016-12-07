@@ -1,0 +1,17 @@
+- name: Make sure Python 2 is available
+  hosts: ro
+  become: True
+  gather_facts: False
+  tasks:
+  - name: install python 2
+    raw: test -e /usr/bin/python || (apt install -y python-minimal)
+
+
+- name: Install eduroam Roaming Operator
+  hosts: ro
+  become: True
+  vars_files:
+    - group_vars/secrets.yml
+
+  roles:
+    - radsecproxy

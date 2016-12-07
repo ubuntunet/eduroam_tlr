@@ -1,0 +1,11 @@
+flr1 ansible_ssh_host=168.253.217.8
+
+[ro]
+flr1
+
+[ro:vars]
+ansible_user=ubuntu
+
+
+[eduroam_me:children]
+ro

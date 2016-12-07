@@ -1,0 +1,34 @@
+tld: me
+
+#Replace with your actual member institutions.
+institutions:
+  -
+    name: eduroam.me
+    host: 168.253.217.8
+    realm: eduroam.me
+    secret: "{{ me_idp_secret }}"
+
+# FQDN of default Forwarding Continental Servers
+regional_proxies:
+  -
+    name: atlr.wacren.net
+    ip4: 168.253.217.78
+    ip6:
+      enabled: false
+      address: 0:0:0:0:0:0:0:0
+    type: UDP
+    secret: "{{ atlr_wacren }}"
+  -
+    name: atlr.ubuntunet.net
+    ip4: 168.253.217.71
+    ip6:
+      enabled: false
+      address: 0:0:0:0:0:0:0:0
+    type: UDP
+    secret: "{{ atlr_ubuntunet }}"
+
+# Monitoring and Statistics Servers
+monitoring:
+  host: 161.53.2.204
+  realm: /eduroam\.{{ tld }}
+fticks_server: 161.53.2.204

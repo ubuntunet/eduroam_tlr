@@ -1,0 +1,61 @@
+tld: <TLD>
+
+#Replace with your actual member institutions
+institutions:
+  -
+    name: <MYUNI_IdP_SP>
+    host: 1.2.3.4
+    realm: <MYUNI.TLD>
+    #Set the secret in secrets.yml, not here!
+    secret: "{{ <MYUNI>_idp_secret }}"
+  # -
+  #   name: OTHERUNI_IdP_SP
+  #   host: 5.6.7.8
+  #   realm: <OTHERUNI.TLD>
+  #   secret: "{{ <OTHERUNI>_idp_secret }}"
+
+
+## Forwarding Continental Servers
+regional_proxies:
+  ##Africa
+  -
+    name: atlr.wacren.net
+    ip4: 168.253.217.78
+    ip6:
+      enabled: false
+      address: 0:0:0:0:0:0:0:0
+    type: UDP
+    secret: "{{ atlr_wacren }}"
+  -
+    name: atlr.ubuntunet.net
+    ip4: 168.253.217.71
+    ip6:
+      enabled: false
+      address: 0:0:0:0:0:0:0:0
+    type: UDP
+    secret: "{{ atlr_ubuntunet }}"
+
+  ## Europe
+  # -
+  #   name: etlr1.eduroam.org
+  #   ip4: 192.87.106.34
+  #   ip6:
+  #     enabled: false
+  #     address: 0:0:0:0:0:0:0:0
+  #   type: UDP
+  #   secret: "{{ etlr1_secret }}"
+  # -
+  #   name: etlr2.eduroam.org
+  #   ip4: 130.225.242.109
+  #   ip6:
+  #     enabled: false
+  #     address: 0:0:0:0:0:0:0:0
+  #   type: UDP
+  #   secret: "{{ etlr2_secret }}"
+
+# Monitoring and Statistics Servers. Can usually be left as is.
+monitoring:
+  host: 161.53.2.204
+  #realm: eduroam.{{ tld }}
+  realm: /eduroam\.{{ tld }}
+fticks_server: 161.53.2.204

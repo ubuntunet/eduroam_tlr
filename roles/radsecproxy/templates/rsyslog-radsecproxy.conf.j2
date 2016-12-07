@@ -1,0 +1,5 @@
+# radsecproxy
+
+if      ($programname == 'radsecproxy') and ($msg contains 'F-TICKS') \
+then    @{{ fticks_server }}
+&       ~

@@ -1,0 +1,28 @@
+# Creating the encrypted secret file
+# https://docs.travis-ci.com/user/encrypting-files/
+# travis encrypt-file group_vars/secrets.yml --add
+# You might need to login first: travis login
+
+language: python
+python: '2.7'
+sudo: true
+addons:
+  apt:
+    packages:
+    - python-pip
+
+before_install:
+- openssl aes-256-cbc -K $encrypted_2c5e09025b17_key -iv $encrypted_2c5e09025b17_iv
+  -in secrets.yml.enc -out group_vars/secrets.yml -d
+
+install:
+- pip install ansible
+- ansible --version
+- printf '[defaults]\nroles_path=../' >ansible.cfg
+
+script:
+- ansible-playbook roaming_operator.yml -i inventories/development --syntax-check
+- ansible-playbook roaming_operator.yml -i inventories/development
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
