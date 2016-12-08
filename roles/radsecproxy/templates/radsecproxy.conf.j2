@@ -2,8 +2,8 @@ ListenUDP   *:1812
 #ListenTCP    *:2083
 
 LogLevel    3
-#LogDestination    file:///var/log/radsecproxy.log
-LogDestination    x-syslog:///LOG_LOCAL0
+LogDestination    file:///var/log/radsecproxy.log
+#LogDestination    x-syslog:///LOG_LOCAL0
 
 # For generating log entries conforming to the F-Ticks system, specify
 # FTicksReporting with one of the following values.
@@ -140,19 +140,19 @@ client 127.0.0.1 {
 # configuration also.
 #
 
-{% for institution in institutions %}
+{% for federation in federations %}
 
-client {{ institution.name }} {
-  host          {{ institution.host }}
+client {{ federation.name }} {
+  host          {{ federation.host }}
   type          UDP
-  secret        {{ institution.secret }}
-  FTicksVISCOUNTRY {{ tld | upper }}
+  secret        {{ federation.secret }}
+  FTicksVISCOUNTRY {{ federation.tld | upper }}
 }
 
-server {{ institution.name }} {
-  host          {{ institution.host }}
+server {{ federation.name }} {
+  host          {{ federation.host }}
   type          UDP
-  secret        {{ institution.secret }}
+  secret        {{ federation.secret }}
   statusserver  on
 }
 
@@ -199,29 +199,29 @@ server {{ institution.name }} {
 # this can be kept literally
 
 
-{% for rlr in regional_proxies %}
-  client {{ rlr.name }} {
-    host {{ rlr.ip4 }}
-    type {{ rlr.type }}
-    secret {{ rlr.secret }}
+{% for tlr in global_proxies %}
+  client {{ tlr.name }} {
+    host {{ tlr.ip4 }}
+    type {{ tlr.type }}
+    secret {{ tlr.secret }}
   }
-  server {{ rlr.name }} {
-    host {{ rlr.ip4 }}
-    type {{ rlr.type }}
-    secret {{ rlr.secret }}
+  server {{ tlr.name }} {
+    host {{ tlr.ip4 }}
+    type {{ tlr.type }}
+    secret {{ tlr.secret }}
     statusserver on
   }
 
-  {% if rlr.ip6.enabled == true %}
-    client {{ rlr.name }} {
-      host {{ rlr.ip6 }}
-      type {{ rlr.type }}
-      secret {{ rlr.secret }}
+  {% if tlr.ip6.enabled == true %}
+    client {{ tlr.name }} {
+      host {{ tlr.ip6 }}
+      type {{ tlr.type }}
+      secret {{ tlr.secret }}
     }
-    server {{ rlr.name }} {
-      host {{ rlr.ip6 }}
-      type {{ rlr.type }}
-      secret {{ rlr.secret }}
+    server {{ tlr.name }} {
+      host {{ tlr.ip6 }}
+      type {{ tlr.type }}
+      secret {{ tlr.secret }}
       statusserver on
     }
   {% endif %}
@@ -289,10 +289,10 @@ realm /^$ {
 # server MAREN_IdP_SP
 #}
 
-{% for institution in institutions %}
+{% for federation in federations %}
 
-  realm {{ institution.realm }} {
-   server {{ institution.name }}
+  realm {{ federation.realm }} {
+   server {{ federation.name }}
   }
 
 {% endfor %}
@@ -373,8 +373,8 @@ realm /\.{{ tld }}$ {
 # DEFAULT forwarding: to the Top-Level Servers
 
 realm   * {
-  {% for rlr in regional_proxies %}
-    server  {{ rlr.name }}
+  {% for tlr in global_proxies %}
+    server  {{ tlr.name }}
   {% endfor %}
 }
 
