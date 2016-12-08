@@ -6,13 +6,13 @@ federations:
     name: TESTME
     tld: me
     host: 168.253.217.25
-    realm: '/(^|\.){{ tld}}'
+    realm: '/(^|\.)me'
     secret: "{{ me_flr_secret }}"
   -
     name: TOGO
     tld: tg
     host: 168.253.217.12
-    realm: '/(^|\.){{ tld}}'
+    realm: '/(^|\.)tg'
     secret: "{{ tg_flr_secret }}"
 
 # FQDN of default Forwarding Continental Servers
