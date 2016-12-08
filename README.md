@@ -1,16 +1,16 @@
-[![Build Status](https://travis-ci.org/ubuntunet/eduroam_flr.png?branch=master)](https://travis-ci.org/ubuntunet/eduroam_flr)
+[![Build Status](https://travis-ci.org/ubuntunet/eduroam_tlr.png?branch=master)](https://travis-ci.org/ubuntunet/eduroam_tlr)
 
-# Ansible Playbook for an eduroam Federation Level Roaming Proxy
+# Ansible Playbook for an eduroam Top Level Roaming Proxy
 
 ## Provisioning
 
 - Clone the repository from Github
 
-        git clone https://github.com/ubuntunet/eduroam_flr.git
+        git clone https://github.com/ubuntunet/eduroam_tlr.git
 
 - Change into the newly created directory
 
-        cd eduroam_flr
+        cd eduroam_tlr
 
 - Copy the inventory template
 
@@ -33,7 +33,7 @@
 
 - Run the playbook. Whenever you change something in the playbook, just replay this command.
 
-        ansible-playbook -i inventories/<eduroam_tld> roaming_operator.yml
+        ansible-playbook -i inventories/<eduroam_tld> tlr.yml
 
 ## Debugging
 

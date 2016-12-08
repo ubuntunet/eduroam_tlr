@@ -1,5 +1,5 @@
 - name: Make sure Python 2 is available
-  hosts: ro
+  hosts: tlr
   become: True
   gather_facts: False
   tasks:
@@ -8,10 +8,21 @@
 
 
 - name: Install eduroam Roaming Operator
-  hosts: ro
+  hosts: tlr
   become: True
   vars_files:
     - group_vars/secrets.yml
 
   roles:
     - radsecproxy
+
+
+# - name: Install NewRelic
+#   hosts: tlr
+#   become: True
+#   roles:
+#     - { role: franklinkim.newrelic, when: play_newrelic == True }
+#   vars_files:
+#     - group_vars/secrets.yml
+#   vars:
+#     newrelic_service_state: started
