@@ -15,6 +15,13 @@ federations:
     realm: '/(^|\.)tg'
     secret: "{{ tg_flr_secret }}"
 
+  -
+    name: MALI
+    tld: ml
+    host: 168.253.217.27
+    realm: '/(^|\.)ml'
+    secret: "{{ ml_flr_secret }}"
+
 # FQDN of default Forwarding Continental Servers
 global_proxies:
   -
