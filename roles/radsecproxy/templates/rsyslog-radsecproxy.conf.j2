@@ -1,5 +1,7 @@
 # radsecproxy
 
+local3.*                -/var/log/radsecproxy.log
+
 if      ($programname == 'radsecproxy') and ($msg contains 'F-TICKS') \
 then    @{{ fticks_server }}
 &       ~

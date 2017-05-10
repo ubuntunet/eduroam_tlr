@@ -57,6 +57,14 @@
     mode: 644
   notify: restart rsyslog
 
+- name: Create radsecproxy logfile
+  file:
+    path: /var/log/radsecproxy.log
+    state: touch
+    owner: syslog
+    group: adm
+  notify: restart rsyslog
+
 - name: Enable logrotation
   copy:
     src: radsecproxy.log

@@ -1,9 +1,9 @@
-ListenUDP   *:1812
-#ListenTCP    *:2083
+ListenUDP         *:1812
+#ListenTCP        *:2083
 
-LogLevel    3
-LogDestination    file:///var/log/radsecproxy.log
-#LogDestination    x-syslog:///LOG_LOCAL0
+LogLevel          3
+#LogDestination    file:///var/log/radsecproxy.log
+LogDestination   x-syslog:///LOG_LOCAL3
 
 # For generating log entries conforming to the F-Ticks system, specify
 # FTicksReporting with one of the following values.
@@ -13,7 +13,7 @@ LogDestination    file:///var/log/radsecproxy.log
 # Please note that in order to get F-Ticks logging for a given client,
 # its matching client configuration block has to contain the
 # fticksVISCOUNTRY option.
-FTicksReporting Full
+FTicksReporting   Full
 
 # You can optionally specify FTicksMAC in order to determine if and
 # how Calling-Station-Id (users Ethernet MAC address) is being logged.
@@ -25,12 +25,12 @@ FTicksReporting Full
 #              is the default.
 #   FullyHashed     -- Hash the entire string.
 #   FullyKeyHashed  -- Like FullyHashed but salt with F-Ticks-Key.
-FTicksMAC VendorKeyHashed
+FTicksMAC           VendorKeyHashed
 
 # In order to use FTicksMAC with one of VendorKeyHashed or
 # FullyKeyHashed, specify a key with FTicksKey.
 # FTicksKey <key>
-FTicksKey {{ fticks_salt }}
+FTicksKey           {{ fticks_salt }}
 
 #FTicksSyslogFacility  x-syslog:///LOG_LOCAL1
 
@@ -38,7 +38,7 @@ FTicksKey {{ fticks_salt }}
 # entity. In this case, misconfigured clients can automatically be prevented
 # from creating a routing loop.
 
-LoopPrevention    On
+LoopPrevention       On
 
 # add the path to your own certificate below. If no password is needed,
 # comment that line.
@@ -52,14 +52,14 @@ LoopPrevention    On
 #}
 
 rewrite defaultclient {
-    removeAttribute 64
-    removeAttribute 65
-    removeAttribute 81
+  removeAttribute 64
+  removeAttribute 65
+  removeAttribute 81
 }
 
 client 127.0.0.1 {
- type  udp
- secret  testing123
+  type  udp
+  secret  testing123
 }
 
 #client ::1 {
@@ -233,15 +233,15 @@ server {{ federation.name }} {
 # incoming European eduroam Confederation monitoring. Negotiate shared secret with SRCE.
 
 client SA5-monitoring-incoming {
- host {{ monitoring.host }}
- type UDP
- secret {{ monitoring_secret }}
+  host {{ monitoring.host }}
+  type UDP
+  secret {{ monitoring_secret }}
 }
 
 server SA5-monitoring-outgoing {
- host {{ monitoring.host }}
- type UDP
- secret {{ monitoring_secret }}
+  host {{ monitoring.host }}
+  type UDP
+  secret {{ monitoring_secret }}
 }
 
 #server TODO:add SRCE RadSec server here {
@@ -292,7 +292,7 @@ realm /^$ {
 {% for federation in federations %}
 
   realm {{ federation.realm }} {
-   server {{ federation.name }}
+    server {{ federation.name }}
   }
 
 {% endfor %}
@@ -342,25 +342,25 @@ realm /^$ {
 # RADIUS.
 
 realm {{ monitoring.realm }} {
- server SA5-monitoring-outgoing
+  server SA5-monitoring-outgoing
 }
 
 # misconfigured realms
 
 realm /@.*\s.*$/ {
-          replymessage "Misconfigured client: realm should NOT contain whitespace! Rejected by this federation."
+  replymessage "Misconfigured client: realm should NOT contain whitespace! Rejected by this federation."
 }
 
 realm /^[^@]+$/ {
-          replymessage "Misconfigured client: no AT symbol in realm! Rejected by this federation."
+  replymessage "Misconfigured client: no AT symbol in realm! Rejected by this federation."
 }
 
 realm /@$/ {
-          replymessage "Misconfigured client: empty realm! Rejected by this federation."
+  replymessage "Misconfigured client: empty realm! Rejected by this federation."
 }
 
 realm /^$/ {
-          replymessage "Misconfigured client: empty! Rejected by this federation."
+  replymessage "Misconfigured client: empty! Rejected by this federation."
 }
 
 # the following entry comes after all your known realms. If other realms from your TLD show up,
