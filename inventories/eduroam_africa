@@ -1,9 +1,11 @@
-wacren ansible_ssh_host=168.253.217.78
-ubuntunet ansible_ssh_host=168.253.217.71
+#wacren ansible_host=168.253.217.78
+ubuntunet ansible_host=196.223.219.124
+#tenet ansible_host=
 
 [tlr]
-wacren
+#wacren
 ubuntunet
+#tenet
 
 [tlr:vars]
 ansible_user=ubuntu
